@@ -12,9 +12,13 @@ public class Assignment1 : ProcessingLite.GP21
     float P02floatX;
     float P02floatY;
 
+    //Swallow M variables
+    int swallowColorShift = 0;
+    bool swallowColorStuck = false;
+
     //Abstract Shapes
     float circPosX = 2;
-    float circPosY = 8;
+    float circPosY = 2;
     float circSize = 2;
     int circBlueShift = 0;
         //Circle Bools
@@ -28,6 +32,7 @@ public class Assignment1 : ProcessingLite.GP21
         Background(0, 0, 0);
         AbstractShape();
         LetterM();
+        Mswallow();
         LetterU();
         LetterP01();
         LetterP02();
@@ -47,7 +52,8 @@ public class Assignment1 : ProcessingLite.GP21
         }
 
         if (Input.GetKey(KeyCode.M)) {
-            Mfloat += 0.06f;
+            Mfloat += 0.1f;
+            swallowColorShift += 4;
         } else if (Input.GetKey(KeyCode.U)) {
 
         } else if (Input.GetKey(KeyCode.P)) {
@@ -55,21 +61,57 @@ public class Assignment1 : ProcessingLite.GP21
             P01CircFloatY = -2;
         }
 
-        if (Mfloat >= 6.5f) {
-            Mfloat = 10;
+        if (Mfloat >= 7f) {
+            Mfloat = 25;
+            swallowColorStuck = true;
         } else if (Mfloat >= 0.04f) {
             Mfloat -= 0.04f;
-        } 
+        }
+
+        if (circPosX >= 32) {
+            circMoveWidth = false;
+        } else if (circPosX <= 3) {
+            circMoveWidth = true;
+        }
+
+        if (circPosY >= 18) {
+            circMoveHeight = false;
+        } else if (circPosY <= 2.9) {
+            circMoveHeight = true;
+        }
+
+        if(swallowColorStuck == false) {
+            if(swallowColorShift >= 1) {
+                swallowColorShift -= 2;
+            } else if(swallowColorShift <= 2) {
+                swallowColorShift = 2;
+            }
+        } else if (swallowColorStuck == true) {
+            swallowColorShift = 0;
+        }
         
+    }
+
+    void Mswallow() {
+        Stroke(swallowColorShift, swallowColorShift, swallowColorShift);
+        Rect(1.5f, 10, 6.5f, 14);
+        Stroke(0, 0, 0);
+        Rect(1.5f, 10.1f, 6.5f, 14);
+        Stroke(swallowColorShift, swallowColorShift, swallowColorShift);
+        Line(1.5f, 10, 1.5f, 8.95f);
+        Line(6.5f, 10, 6.5f, 8.95f);
+        Stroke(255, 255, 255);
     }
 
     void LetterM() {
         //Start(x, y), End(x, y)
+        Stroke(swallowColorShift, swallowColorShift, swallowColorShift);
+        Line(1.5f, 9, 6.5f, 9);
+        Stroke(255, 255, 255);
         Line(2, Mfloat + 7, 2, Mfloat + 3);
         Line(2, Mfloat + 7, 4, Mfloat + 3);
         Line(4, Mfloat + 3, 6, Mfloat + 7);
         Line(6, Mfloat + 7, 6, Mfloat + 3);
-        Stroke(255, 255, 255);
     }
 
     void LetterU() {
@@ -121,8 +163,20 @@ public class Assignment1 : ProcessingLite.GP21
 
         if (circSizeBool == true) {
             circSize += 0.02f;
-        } else if(circSizeBool == false) {
+        } else if (circSizeBool == false) {
             circSize -= 0.02f;
+        }
+
+        if (circMoveWidth == true) {
+            circPosX += 0.1f;
+        } else if (circMoveWidth == false) {
+            circPosX -= 0.1f;
+        }
+
+        if (circMoveHeight == true) {
+            circPosY += 0.1f;
+        } else if (circMoveHeight == false) {
+            circPosY -= 0.1f;
         }
 
         Stroke(255, 0, circBlueShift);
