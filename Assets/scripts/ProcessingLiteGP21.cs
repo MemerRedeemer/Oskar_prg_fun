@@ -52,6 +52,22 @@ namespace ProcessingLite {
 			}
 		}
 
+		public float MouseX {
+			get {
+				_cameraRef ??= Camera.main;
+				return _cameraRef.ScreenToWorldPoint(Input.mousePosition).x;
+			}
+		}
+
+		public float MouseY {
+			get {
+				_cameraRef ??= Camera.main;
+				return _cameraRef.ScreenToWorldPoint(Input.mousePosition).y;
+			}
+		}
+
+
+
 		#region draw functions
 
 		/// <summary>
@@ -131,7 +147,7 @@ namespace ProcessingLite {
 		}
 
 		/// <summary>
-		/// A triangle is a plane created by connecting three points. 
+		/// A triangle is a plane created by connecting three points.
 		/// </summary>
 		/// <param name="x1">x-coordinate of the first corner</param>
 		/// <param name="y1">y-coordinate of the first corner</param>
@@ -436,7 +452,8 @@ namespace ProcessingLite {
 		private void OnEnable()
 		{
 			if (Application.isPlaying) return;
-			Debug.LogError("Improper use of ProcessingLiteGP21.\nProcessingLiteGP21 is not allowed to be assigned as a component.");
+			Debug.LogError("Improper use of ProcessingLiteGP21.\nProcessingLiteGP21 is not allowed to be assigned as a component.\nRemoving from Scene.");
+			Destroy(this);
 		}
 	}
 #endif

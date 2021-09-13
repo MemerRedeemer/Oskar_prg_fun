@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Assignment1 : ProcessingLite.GP21
 {
+    //Assignment variables
     float Mfloat;
     //P01 float variables
     float P01floatX;
@@ -27,69 +28,101 @@ public class Assignment1 : ProcessingLite.GP21
         bool circSizeBool;
         bool circBlueBool = false;
 
+    //Platformer variables
+    bool platformerActivated = false;
+    //Player Pos
+    float playerx = 2;
+    float playery = 2;
+    float diameter = 2;
+
 
     void FixedUpdate() {
-        Background(0, 0, 0);
-        AbstractShape();
-        LetterM();
-        Mswallow();
-        LetterU();
-        LetterP01();
-        LetterP02();
-        LetterE();
-        LetterT();
 
-        if (circBlueShift == 255) {
-            circBlueBool = false;
-        } else if (circBlueShift == 0) {
-            circBlueBool = true;
-        } 
+        //Old Stuff
+        if(platformerActivated == false) {
+            Background(0, 0, 0);
+            LetterM();
+            Mswallow();
+            LetterU();
+            LetterP01();
+            LetterP02();
+            LetterE();
+            LetterT();
+            AbstractShape01();
 
-        if (circSize <= 1) {
-            circSizeBool = true;
-        } else if (circSize >= 3) {
-            circSizeBool = false;
-        }
-
-        if (Input.GetKey(KeyCode.M)) {
-            Mfloat += 0.1f;
-            swallowColorShift += 4;
-        } else if (Input.GetKey(KeyCode.U)) {
-
-        } else if (Input.GetKey(KeyCode.P)) {
-            P01floatX = 2.5f;
-            P01CircFloatY = -2;
-        }
-
-        if (Mfloat >= 7f) {
-            Mfloat = 25;
-            swallowColorStuck = true;
-        } else if (Mfloat >= 0.04f) {
-            Mfloat -= 0.04f;
-        }
-
-        if (circPosX >= 32) {
-            circMoveWidth = false;
-        } else if (circPosX <= 3) {
-            circMoveWidth = true;
-        }
-
-        if (circPosY >= 18) {
-            circMoveHeight = false;
-        } else if (circPosY <= 2.9) {
-            circMoveHeight = true;
-        }
-
-        if(swallowColorStuck == false) {
-            if(swallowColorShift >= 1) {
-                swallowColorShift -= 2;
-            } else if(swallowColorShift <= 2) {
-                swallowColorShift = 2;
+            if(Input.GetKey(KeyCode.M)) {
+                Mfloat += 0.1f;
+                swallowColorShift += 4;
+            } else if(Input.GetKey(KeyCode.P) && Input.GetKey(KeyCode.L) && Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.Y)) {
+                platformerActivated = true;
+            } else if(Input.GetKey(KeyCode.P)) {
+                P01floatX = 2.5f;
+                P01CircFloatY = -2;
             }
-        } else if (swallowColorStuck == true) {
-            swallowColorShift = 0;
+
+            if(circBlueShift == 255) {
+                circBlueBool = false;
+            } else if(circBlueShift == 0) {
+                circBlueBool = true;
+            }
+
+            if(circSize <= -4) {
+                circSizeBool = true;
+            } else if(circSize >= 4) {
+                circSizeBool = false;
+            }
+
+            if(circPosX >= 32) {
+                circMoveWidth = false;
+            } else if(circPosX <= 3) {
+                circMoveWidth = true;
+            }
+
+            if(circPosY >= 18) {
+                circMoveHeight = false;
+            } else if(circPosY <= 2.9) {
+                circMoveHeight = true;
+            }
+
+            if(Mfloat >= 7f) {
+                Mfloat = 25;
+                swallowColorStuck = true;
+            } else if(Mfloat >= 0.04f) {
+                Mfloat -= 0.04f;
+            }
+
+            if(swallowColorStuck == false) {
+                if(swallowColorShift >= 1) {
+                    swallowColorShift -= 2;
+                } else if(swallowColorShift <= 2) {
+                    swallowColorShift = 2;
+                }
+            } else if(swallowColorStuck == true) {
+                swallowColorShift = 0;
+            }
+        } else {
+            Background(0, 0, 0);
+            Player01();
         }
         
+    }
+
+    void Player01() {
+        // x, y, diam
+        if(Input.GetKey(KeyCode.D)) {
+            playerx += 0.2f;
+        } else if(Input.GetKey(KeyCode.A)) {
+            playerx -= 0.2f;
+        } else if(Input.GetKey(KeyCode.W)) { 
+            if (playery <= 17) {
+                playery += 2f;
+            }
+        } else {
+            if(playery >= 2.1f) {
+                playery -= 0.5f;
+            }
+        }
+        Circle(playerx, playery, diameter);
     }
 
     void Mswallow() {
@@ -154,37 +187,39 @@ public class Assignment1 : ProcessingLite.GP21
         Line(17.5f, 7, 20.5f, 7);
     }
 
-    void AbstractShape() {
+    void AbstractShape01() {
+        //Bool for color shift
         if (circBlueBool == true) {
             circBlueShift += 1;
         } else if (circBlueBool == false) {
             circBlueShift -= 1;
         }
-
+        //Bool for circle size
         if (circSizeBool == true) {
             circSize += 0.02f;
         } else if (circSizeBool == false) {
             circSize -= 0.02f;
         }
-
+        //Bool for circle movement Horizontal
         if (circMoveWidth == true) {
             circPosX += 0.1f;
         } else if (circMoveWidth == false) {
             circPosX -= 0.1f;
         }
-
+        //Bool for circle movement Vertical
         if (circMoveHeight == true) {
             circPosY += 0.1f;
         } else if (circMoveHeight == false) {
             circPosY -= 0.1f;
         }
-
-        Stroke(255, 0, circBlueShift);
+        //Circle
+        Stroke(255, -circBlueShift, circBlueShift);
+        Fill(0, circBlueShift, -circBlueShift);
         Circle(circPosX, circPosY, circSize);
 
 
-
         Stroke(255, 255, 255);
+        Fill(0, 0, 0);
     }
 
 }
