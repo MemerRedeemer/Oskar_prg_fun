@@ -21,7 +21,7 @@ public class Assignment2 : ProcessingLite.GP21 {
                 assignment = false;
             }
             for(int i = 0; i < endPointY; i++) {
-                startPointX += 1;
+                startPointX += 2;
                 endPointY -= 1;
                 if(startPointX % 3 == 1) {
                     Stroke(255, 0, 0);
