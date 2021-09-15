@@ -7,20 +7,41 @@ public class Assignment2 : ProcessingLite.GP21 {
     float startPointX = 0;
     float endPointY = 19;
 
+    bool assignment = true;
+    float spaceBetweenLines = 0.2f;
+    float extaMathY;
+
     void Start() {
         Background(0, 0, 0);
     }
 
     void Update() {
-        for(int i = 0; i < endPointY; i++) {
-            startPointX += 1;
-            endPointY -= 1;
-            if(startPointX % 3 == 1) {
-                Stroke(255, 0, 0);
-            } else {
-                Stroke(0, 0, 255);
+        if(assignment == true) {
+            if(Input.GetKey(KeyCode.C)) {
+                assignment = false;
             }
-            Line(startPointX, 0, 0, endPointY);
+            for(int i = 0; i < endPointY; i++) {
+                startPointX += 1;
+                endPointY -= 1;
+                if(startPointX % 3 == 1) {
+                    Stroke(255, 0, 0);
+                } else {
+                    Stroke(0, 0, 255);
+                }
+                Line(startPointX, 0, 0, endPointY);
+            }
+        } else { 
+            for(int i = 0; i < Height / spaceBetweenLines; i++) {
+                Background(0, 0, 0);
+                if (Input.GetKey(KeyCode.W)) {
+                    float y = i * spaceBetweenLines;
+                    extaMathY = y + Time.time;
+                } else {
+                    float y = i * spaceBetweenLines;
+                    extaMathY = y - Time.time;
+                }
+                Line(0, extaMathY % Height, Width, extaMathY % Height);
+            }
         }
     }
 }
