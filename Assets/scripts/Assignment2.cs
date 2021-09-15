@@ -5,7 +5,7 @@ using UnityEngine;
 public class Assignment2 : ProcessingLite.GP21 {
 
     float startPointX = 0;
-    float endPointY = 19;
+    float endPointY = 22;
 
     bool assignment = true;
     float spaceBetweenLines = 0.2f;
@@ -22,7 +22,7 @@ public class Assignment2 : ProcessingLite.GP21 {
             }
             for(int i = 0; i < endPointY; i++) {
                 startPointX += 2;
-                endPointY -= 1;
+                endPointY -= 0.25f;
                 if(startPointX % 3 == 1) {
                     Stroke(255, 0, 0);
                 } else {

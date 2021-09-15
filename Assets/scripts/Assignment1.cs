@@ -1,7 +1,6 @@
 using UnityEngine;
 
-public class Assignment1 : ProcessingLite.GP21
-{
+public class Assignment1 : ProcessingLite.GP21 {
     //Assignment variables
     float Mfloat;
     //P01 float variables
