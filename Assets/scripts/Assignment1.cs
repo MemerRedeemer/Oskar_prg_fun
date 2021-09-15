@@ -42,8 +42,6 @@ public class Assignment1 : ProcessingLite.GP21
     float tempEndPosX;
     float tempEndPosY;
 
-    float spaceBetweenLines = 0.2f;
-
     void FixedUpdate() {
 
         //Old Stuff
@@ -112,28 +110,15 @@ public class Assignment1 : ProcessingLite.GP21
             Background(0, 0, 0);
             Line(0, 0.5f, 36, 0.5f);
             Player01();
-            ScanLine();
             if(shootBool == true) {
                 tempPlayerPosX = playerx + 2;
                 tempPlayerPosY = playery;
-                tempEndPosX = tempPlayerPosX + 3;
-                
-                
+                tempEndPosX = tempPlayerPosX + 3; 
             } else {
                 shootBool = false;
             }
         }
         
-    }
-
-    void ScanLine() {
-        for(int i = 0; i < Height / spaceBetweenLines; i++) {
-            //Increase y-cord each time loop run
-            float y = i * spaceBetweenLines;
-
-            //Draw a line from left side of screen to the right
-            Line(0, (y + Time.time) % Height, Width, (y + Time.time) % Height);
-        }
     }
 
     void Player01() {
