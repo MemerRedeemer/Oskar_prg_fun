@@ -35,6 +35,14 @@ public class Assignment1 : ProcessingLite.GP21
     float playery = 2;
     float diameter = 2;
 
+    bool shootBool = false;
+    bool bulletTime = false;
+    float tempPlayerPosX;
+    float tempPlayerPosY;
+    float tempEndPosX;
+    float tempEndPosY;
+
+    float spaceBetweenLines = 0.2f;
 
     void FixedUpdate() {
 
@@ -66,7 +74,7 @@ public class Assignment1 : ProcessingLite.GP21
                 circBlueBool = true;
             }
 
-            if(circSize <= -4) {
+            if(circSize <= 0) {
                 circSizeBool = true;
             } else if(circSize >= 4) {
                 circSizeBool = false;
@@ -102,9 +110,30 @@ public class Assignment1 : ProcessingLite.GP21
             }
         } else {
             Background(0, 0, 0);
+            Line(0, 0.5f, 36, 0.5f);
             Player01();
+            ScanLine();
+            if(shootBool == true) {
+                tempPlayerPosX = playerx + 2;
+                tempPlayerPosY = playery;
+                tempEndPosX = tempPlayerPosX + 3;
+                
+                
+            } else {
+                shootBool = false;
+            }
         }
         
+    }
+
+    void ScanLine() {
+        for(int i = 0; i < Height / spaceBetweenLines; i++) {
+            //Increase y-cord each time loop run
+            float y = i * spaceBetweenLines;
+
+            //Draw a line from left side of screen to the right
+            Line(0, (y + Time.time) % Height, Width, (y + Time.time) % Height);
+        }
     }
 
     void Player01() {
@@ -113,16 +142,25 @@ public class Assignment1 : ProcessingLite.GP21
             playerx += 0.2f;
         } else if(Input.GetKey(KeyCode.A)) {
             playerx -= 0.2f;
-        } else if(Input.GetKey(KeyCode.W)) { 
-            if (playery <= 17) {
+        } else if(Input.GetKey(KeyCode.W)) {
+            if(playery <= 17) {
                 playery += 2f;
             }
-        } else {
+        } else if(Input.GetKey(KeyCode.Space)) {
+            shootBool = true;
+        }else {
             if(playery >= 2.1f) {
                 playery -= 0.5f;
             }
         }
+        
         Circle(playerx, playery, diameter);
+    }
+
+    void Bullet() {
+        if (bulletTime == true) {
+            Line(tempPlayerPosX, tempPlayerPosY, tempEndPosX, tempPlayerPosY);
+        }
     }
 
     void Mswallow() {
@@ -221,5 +259,6 @@ public class Assignment1 : ProcessingLite.GP21
         Stroke(255, 255, 255);
         Fill(0, 0, 0);
     }
+    
 
 }
