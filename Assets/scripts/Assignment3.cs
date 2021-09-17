@@ -11,7 +11,6 @@ public class Assignment3 : ProcessingLite.GP21 {
     //movement
     Vector2 circleToMouse;
     Vector2 velocity;
-    float speed = 0.5f;
     float devRad;
 
     void Start() {
@@ -20,18 +19,18 @@ public class Assignment3 : ProcessingLite.GP21 {
 
     void Update() { 
         Background(0, 0, 0);
-        //Make line
-        if(Input.GetMouseButton(0)) {
-            Line(pos.x, pos.y, MouseX, MouseY);
-            circleToMouse = new Vector2(pos.x - MouseX, pos.y - MouseY);
-        }
 
         //Movement code
         if(Input.GetMouseButtonUp(0)) {
             //creates velocity
-            velocity = new Vector2(-(speed * circleToMouse.x), -(speed * circleToMouse.y));
-            
+            float sqrtLength = (circleToMouse.x * circleToMouse.x) + (circleToMouse.y * circleToMouse.y);
+            float length = Mathf.Sqrt(sqrtLength);
+            if(length >= 5) {
+                length = 5;
+            }
+            velocity = new Vector2(-(length * circleToMouse.x), -(length * circleToMouse.y));
         }
+
 
         //Teleport code
         if(Input.GetMouseButtonDown(0)) {
@@ -51,6 +50,12 @@ public class Assignment3 : ProcessingLite.GP21 {
         pos.y += velocity.y * Time.deltaTime;
         Circle(pos.x, pos.y, rad);
 
+        //Make line
+        //Pushed all this code down here so the line would be drawn above the circle (ugly code, works but needs fix)
+        if(Input.GetMouseButton(0)) {
+            Line(pos.x, pos.y, MouseX, MouseY);
+            circleToMouse = new Vector2(pos.x - MouseX, pos.y - MouseY);
+        }
     }
 
 
