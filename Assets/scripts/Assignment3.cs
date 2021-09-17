@@ -29,7 +29,7 @@ public class Assignment3 : ProcessingLite.GP21 {
         //Movement code
         if(Input.GetMouseButtonUp(0)) {
             //creates velocity
-            velocity = new Vector2((speed * circleToMouse.x) * -1, (speed * circleToMouse.y) * -1);
+            velocity = new Vector2(-(speed * circleToMouse.x), -(speed * circleToMouse.y));
             
         }
 
@@ -50,7 +50,7 @@ public class Assignment3 : ProcessingLite.GP21 {
         pos.x += velocity.x * Time.deltaTime;
         pos.y += velocity.y * Time.deltaTime;
         Circle(pos.x, pos.y, rad);
-        Debug.Log(pos.x + " " + pos.y);
+
     }
 
 
