@@ -18,11 +18,13 @@ public class Assignment4 : ProcessingLite.GP21 {
 
     void Update() {
         Background(0, 0, 0);
+
+        //Velocity Circle
         velPos.x = velPos.x + Input.GetAxis("Horizontal") * Time.deltaTime * speed;
         velPos.y = velPos.y + Input.GetAxis("Vertical") * Time.deltaTime * speed;
-        //Velocity Circle
         Stroke(255, 255, 255);
         Circle(velPos.x, velPos.y, rad);
+
         //Acceleration Circle
         if(Input.GetKey(KeyCode.D)) {
             acceleration.x += 0.2f * Time.deltaTime;
