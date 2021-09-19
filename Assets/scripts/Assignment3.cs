@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Assignment3 : ProcessingLite.GP21 {
 
+    //background color
+    int backgroundRed, backgroundGreen, backgroundBlue;
+    
     //circle
     Vector2 pos = new Vector2(16, 10);
     float rad = 4;
@@ -12,38 +15,24 @@ public class Assignment3 : ProcessingLite.GP21 {
     Vector2 circleToMouse;
     Vector2 velocity;
     float devRad;
+    float maxSpeed = 5;
 
     void Start() {
         devRad = rad / 2;
     }
 
     void Update() { 
-        Background(0, 0, 0);
+        Background(backgroundRed, backgroundGreen, backgroundBlue);
+        Border();
 
         //Movement code
         if(Input.GetMouseButtonUp(0)) {
-            //creates velocity
-            float sqrtLength = (circleToMouse.x * circleToMouse.x) + (circleToMouse.y * circleToMouse.y);
-            float length = Mathf.Sqrt(sqrtLength);
-            if(length >= 5) {
-                length = 5;
-            }
-            velocity = new Vector2(-(length * circleToMouse.x), -(length * circleToMouse.y));
+            Movement();
         }
-
 
         //Teleport code
         if(Input.GetMouseButtonDown(0)) {
-            //Changes vector pos to mouse pos.
-            pos.x = MouseX;
-            pos.y = MouseY;
-        }
-
-
-        if((pos.x + devRad) >= Width || (pos.x - devRad) <= 0) {
-            velocity.x = -velocity.x;
-        } else if((pos.y + devRad) >= Height || (pos.y - devRad) <= 0) {
-            velocity.y = -velocity.y;
+            Teleport();
         }
 
         pos.x += velocity.x * Time.deltaTime;
@@ -53,11 +42,44 @@ public class Assignment3 : ProcessingLite.GP21 {
         //Make line
         //Pushed all this code down here so the line would be drawn above the circle (ugly code, works but needs fix)
         if(Input.GetMouseButton(0)) {
-            Line(pos.x, pos.y, MouseX, MouseY);
-            circleToMouse = new Vector2(pos.x - MouseX, pos.y - MouseY);
+            MakeLine();
         }
     }
 
+    void Movement() {
+        //creates velocity
+        float length = circleToMouse.magnitude;
+        if(length >= maxSpeed) {
+            length = maxSpeed;
+        }
+        velocity = new Vector2(-(length * circleToMouse.x), -(length * circleToMouse.y));
+    }
 
+    void Teleport() {
+        //Changes vector pos to mouse pos.
+        pos.x = MouseX;
+        pos.y = MouseY;
+    }
+
+    void MakeLine() {
+        Line(pos.x, pos.y, MouseX, MouseY);
+        circleToMouse = new Vector2(pos.x - MouseX, pos.y - MouseY);
+    }
+
+    void Border() {
+        if((pos.x + devRad) >= Width || (pos.x - devRad) <= 0) {
+            backgroundBlue = Random.Range(0, 255);
+            backgroundGreen = Random.Range(0, 255);
+            backgroundRed = 0;
+            Fill(backgroundRed, backgroundBlue, backgroundGreen);
+            velocity.x = -velocity.x;
+        } else if((pos.y + devRad) >= Height || (pos.y - devRad) <= 0) {
+            backgroundRed = Random.Range(0, 255);
+            backgroundGreen = Random.Range(0, 255);
+            backgroundBlue = 0;
+            Fill(backgroundBlue, backgroundGreen, backgroundRed);
+            velocity.y = -velocity.y;
+        }
+    }
 
 }
