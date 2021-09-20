@@ -24,12 +24,19 @@ public class Assignment4 : ProcessingLite.GP21 {
         Background(0, 0, 0);
 
         //Velocity Circle
+        BallNR1();
+        //Acceleration Circle
+        BallNR2();
+    }
+
+    void BallNR1() {
         velPos.x = velPos.x + Input.GetAxis("Horizontal") * Time.deltaTime * speed;
         velPos.y = velPos.y + Input.GetAxis("Vertical") * Time.deltaTime * speed;
         Stroke(255, 255, 255);
         Circle(velPos.x, velPos.y, rad);
+    }
 
-        //Acceleration Circle
+    void BallNR2() {
         if(Input.GetKey(KeyCode.D)) {
             acceleration.x += acsIncSpeed * Time.deltaTime;
         } else if(Input.GetKey(KeyCode.A)) {
@@ -39,18 +46,30 @@ public class Assignment4 : ProcessingLite.GP21 {
         } else if(Input.GetKey(KeyCode.W)) {
             acceleration.y += acsIncSpeed * Time.deltaTime;
         } else {
-            if(acceleration.x >= 0) {
+            if(acceleration.x > 0) {
                 acceleration.x -= acsDecSpeed * Time.deltaTime;
             }
-            if(acceleration.x <= 0) {
+            if(acceleration.x < 0) {
                 acceleration.x += acsDecSpeed * Time.deltaTime;
             }
-            if(acceleration.y >= 0) {
+            if(acceleration.y > 0) {
                 acceleration.y -= acsDecSpeed * Time.deltaTime;
             }
-            if(acceleration.y <= 0) {
+            if(acceleration.y < 0) {
                 acceleration.y += acsDecSpeed * Time.deltaTime;
             }
+        }
+        if(acceleration.x >= 0.2f) {
+            acceleration.x = 0.2f;
+        }
+        if(acceleration.x <= -0.2f) {
+            acceleration.x = -0.2f;
+        }
+        if(acceleration.y >= 0.2f) {
+            acceleration.y = 0.2f;
+        }
+        if(acceleration.y <= -0.2f) {
+            acceleration.y = -0.2f;
         }
         acsPos.x += acceleration.x;
         acsPos.y += acceleration.y;
