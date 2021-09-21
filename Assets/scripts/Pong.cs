@@ -11,13 +11,14 @@ public class Pong : ProcessingLite.GP21 {
     float devRad;
     float cpuLineYStart, cpuLineYEnd;
     float playerLineStart, playerLineEnd;
+    float pullToBall;
 
     float inpSpeed = 4;
     float inputPosY;
 
     void Start() {
         circPos = new Vector2(Width / 2, Height / 2);
-        speed = new Vector2(5, 3);
+        speed = new Vector2(6, 3);
         devRad = rad / 2;
     }
 
@@ -64,16 +65,17 @@ public class Pong : ProcessingLite.GP21 {
 
     void Ball() {
         //Bounce of CPU
-        if((circPos.y + devRad) > cpuLineYStart && (circPos.y - devRad) < cpuLineYEnd && (circPos.x + devRad) >= (Width - 4)) {
-                speed.x += 0.5f;
-                speed.x = -speed.x;
-                speed.y += 
+        if((circPos.y + devRad) > cpuLineYStart && (circPos.y - devRad) < cpuLineYEnd && (circPos.x + devRad) >= (Width - 4)) { 
+            speed.x += 1;
+            speed.x = -speed.x;
+            speed.y += Random.Range(-5, 5);
         }
 
         //Bounce of player
         if((circPos.y + devRad) > playerLineStart && (circPos.y - devRad) < playerLineEnd && (circPos.x - devRad) <= 4) {
-            speed.x -= 0.5f;
+            speed.x -= 1;
             speed.x = -speed.x;
+            speed.y += Random.Range(-5, 5);
         }
 
         //Bounce of walls
@@ -92,10 +94,10 @@ public class Pong : ProcessingLite.GP21 {
     }
 
     void Win() {
-
+        Debug.Log("Win!");
     }
 
     void Lose() {
-
+        Debug.Log("Lose!");
     }
 }

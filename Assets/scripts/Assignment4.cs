@@ -121,8 +121,8 @@ public class Assignment4 : ProcessingLite.GP21 {
     }
 
     void BallNR1() {
-        velPos.x = velPos.x + Input.GetAxis("Horizontal") * Time.deltaTime * speed;
-        velPos.y = velPos.y + Input.GetAxis("Vertical") * Time.deltaTime * speed;
+        velPos.x += Input.GetAxis("Horizontal") * Time.deltaTime * speed;
+        velPos.y += Input.GetAxis("Vertical") * Time.deltaTime * speed;
         Stroke(255, 255, 255);
         Circle(velPos.x, velPos.y, diameter);
     }
