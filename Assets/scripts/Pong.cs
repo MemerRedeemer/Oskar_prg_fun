@@ -5,31 +5,48 @@ using UnityEngine;
 public class Pong : ProcessingLite.GP21 {
 
     Vector2 circPos;
-    float rad = 3;
-    float devRad;
-    float speedX, speedY;
+    Vector2 speed;
 
-    float playerLineStart;
-    float playerLineEnd;
+    float rad = 2;
+    float devRad;
+    float cpuLineYStart, cpuLineYEnd;
+    float playerLineStart, playerLineEnd;
 
     float inpSpeed = 4;
     float inputPosY;
 
     void Start() {
         circPos = new Vector2(Width / 2, Height / 2);
-        speedX = 5;
-        speedY = 3;
+        speed = new Vector2(5, 3);
         devRad = rad / 2;
     }
 
     void Update() {
         Background(0, 0, 0);
-        circPos.x += speedX * Time.deltaTime;
-        circPos.y += speedY * Time.deltaTime;
-        Debug.Log(speedX + ":" + speedY);
+        //Top,Bottom border
+        Line(0, 0, Width, 0);
+        Line(0, Height, Width, Height);
+
+        circPos.x += speed.x * Time.deltaTime;
+        circPos.y += speed.y * Time.deltaTime;
+
+        Score();
+        MidLine();
         CPULine();
         PlayerInput();
         Ball();
+    }
+
+    void Score() {
+        //fix this later,
+        //Gonna be lots of code :c
+    }
+
+    void MidLine() {
+        float middleOfScreen = Width / 2;
+        for(int i = 0; i < Height; i++) {
+            Line(middleOfScreen, i, middleOfScreen, i + 0.5f);
+        }
     }
 
     void PlayerInput() {
@@ -40,34 +57,45 @@ public class Pong : ProcessingLite.GP21 {
     }
 
     void CPULine() {
-        Line(Width - 4, circPos.y - 3, Width - 4, circPos.y + 3);
+        cpuLineYStart = circPos.y - 3;
+        cpuLineYEnd = circPos.y + 3;
+        Line(Width - 4, cpuLineYStart , Width - 4, cpuLineYEnd);
     }
 
     void Ball() {
         //Bounce of CPU
-        if((circPos.x + devRad) >= (Width - 4)) {
-            speedX += 1;
-            speedX = -speedX;
+        if((circPos.y + devRad) > cpuLineYStart && (circPos.y - devRad) < cpuLineYEnd && (circPos.x + devRad) >= (Width - 4)) {
+                speed.x += 0.5f;
+                speed.x = -speed.x;
+                speed.y += 
         }
 
         //Bounce of player
         if((circPos.y + devRad) > playerLineStart && (circPos.y - devRad) < playerLineEnd && (circPos.x - devRad) <= 4) {
-            speedX -= 1;
-            speedX = -speedX;
+            speed.x -= 0.5f;
+            speed.x = -speed.x;
         }
 
         //Bounce of walls
         if((circPos.y + devRad) >= Height || (circPos.y - devRad) <= 0) {
-            speedY = -speedY;
+            speed.y = -speed.y;
         } 
         //Lose
         if((circPos.x - devRad) <= 0) {
-            Debug.Log("LOSE!");
+            Lose();
         }
         if((circPos.x + devRad) >= Width) {
-            Debug.Log("WIN!");
+            Win();
         }
         //Draw circle
         Circle(circPos.x, circPos.y, rad);
+    }
+
+    void Win() {
+
+    }
+
+    void Lose() {
+
     }
 }
