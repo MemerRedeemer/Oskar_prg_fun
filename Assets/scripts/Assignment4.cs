@@ -33,7 +33,8 @@ public class Assignment4 : ProcessingLite.GP21 {
         BallNR1();
         //Acceleration Circle
         BallNR2();
-        BorderWrap();
+        BorderWrap01();
+        BorderWrap02();
         Gravity();
     }
 
@@ -51,10 +52,46 @@ public class Assignment4 : ProcessingLite.GP21 {
             } else {
                 velPos.y = 0.1f + radie;
             }
+            if((acsPos.y - radie) >= 0.1f) {
+                acsPos.y -= gravity * Time.deltaTime;
+            } else {
+                acsPos.y = 0.1f + radie;
+            }
         }
     }
 
-    void BorderWrap() {
+    void BorderWrap02() {
+        Stroke(255, 0, 0);
+        //Left border Temp Circle
+        if((acsPos.x - radie) <= 0) {
+            wrapPos = new Vector2(Width + acsPos.x, acsPos.y);
+            Circle(wrapPos.x, wrapPos.y, diameter);
+            //Right border Temp Circle
+        }
+        if((acsPos.x + radie) >= Width) {
+            wrapPos = new Vector2(acsPos.x - Width, acsPos.y);
+            Circle(wrapPos.x, wrapPos.y, diameter);
+            //Bottom border temp circle
+        }
+        if((acsPos.y - radie) <= 0) {
+            wrapPos = new Vector2(acsPos.x, Height + acsPos.y);
+            Circle(wrapPos.x, wrapPos.y, diameter);
+            //Top border temp circle
+        }
+        if((acsPos.y + radie) >= Height) {
+            wrapPos = new Vector2(acsPos.x, acsPos.y - Height);
+            Circle(wrapPos.x, wrapPos.y, diameter);
+        }
+
+        //Left border switch (telport main circle to temp circle)
+        if((acsPos.x + radie) <= 0 || (acsPos.x - radie) >= Width || (acsPos.y + radie) <= 0 || (acsPos.y - radie) >= Height) {
+            acsPos.x = wrapPos.x;
+            acsPos.y = wrapPos.y;
+        }
+        Stroke(255, 255, 255);
+    }
+
+    void BorderWrap01() {
         //Left border Temp Circle
         if((velPos.x - radie) <= 0) {
             wrapPos = new Vector2(Width + velPos.x, velPos.y);
