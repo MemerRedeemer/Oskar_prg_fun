@@ -6,18 +6,24 @@ public class Assignment4 : ProcessingLite.GP21 {
 
     Vector2 velPos;
     Vector2 acsPos;
+    Vector2 wrapPos;
     Vector2 acceleration = new Vector2(0, 0);
 
     float acsDecSpeed = 0.025f;
     float acsIncSpeed = 0.1f;
 
-    float rad = 3;
-    float speed = 5;
+    float diameter = 3;
+    float speed = 10;
+    float maxSpeed;
+    float radie;
 
+    bool gravitySwitch = false;
+    float gravity = 9.82f;
 
     void Start() {
         velPos = new Vector2(Width / 2, Height / 2);
         acsPos = new Vector2(Width / 2, Height / 3);
+        radie = diameter / 2;
     }
 
     void Update() {
@@ -27,13 +33,61 @@ public class Assignment4 : ProcessingLite.GP21 {
         BallNR1();
         //Acceleration Circle
         BallNR2();
+        BorderWrap();
+        Gravity();
+    }
+
+    void Gravity() {
+        if(Input.GetKeyUp(KeyCode.G)) {
+            if(gravitySwitch == false) {
+                gravitySwitch = true;
+            } else {
+                gravitySwitch = false;
+            }
+        }
+        if(gravitySwitch == true) {
+            if((velPos.y - radie) >= 0.1f) {
+                velPos.y -= gravity * Time.deltaTime;
+            } else {
+                velPos.y = 0.1f + radie;
+            }
+        }
+    }
+
+    void BorderWrap() {
+        //Left border Temp Circle
+        if((velPos.x - radie) <= 0) {
+            wrapPos = new Vector2(Width + velPos.x, velPos.y);
+            Circle(wrapPos.x, wrapPos.y, diameter);
+            //Right border Temp Circle
+        }
+        if((velPos.x + radie) >= Width) {
+            wrapPos = new Vector2(velPos.x - Width, velPos.y);
+            Circle(wrapPos.x, wrapPos.y, diameter);
+            //Bottom border temp circle
+        } 
+        if((velPos.y - radie) <= 0) {
+            wrapPos = new Vector2(velPos.x, Height + velPos.y);
+            Circle(wrapPos.x, wrapPos.y, diameter);
+            //Top border temp circle
+        } 
+        if((velPos.y + radie) >= Height) {
+            wrapPos = new Vector2(velPos.x, velPos.y - Height);
+            Circle(wrapPos.x, wrapPos.y, diameter);
+        }
+
+        //Left border switch (telport main circle to temp circle)
+        if((velPos.x + radie) <= 0 || (velPos.x - radie) >= Width || (velPos.y + radie) <= 0 || (velPos.y - radie) >= Height)  {
+            velPos.x = wrapPos.x;
+            velPos.y = wrapPos.y;
+        }
     }
 
     void BallNR1() {
         velPos.x = velPos.x + Input.GetAxis("Horizontal") * Time.deltaTime * speed;
         velPos.y = velPos.y + Input.GetAxis("Vertical") * Time.deltaTime * speed;
         Stroke(255, 255, 255);
-        Circle(velPos.x, velPos.y, rad);
+        Circle(velPos.x, velPos.y, diameter);
     }
 
     void BallNR2() {
@@ -46,6 +100,7 @@ public class Assignment4 : ProcessingLite.GP21 {
         } else if(Input.GetKey(KeyCode.W)) {
             acceleration.y += acsIncSpeed * Time.deltaTime;
         } else {
+            //Decelatrion
             if(acceleration.x > 0) {
                 acceleration.x -= acsDecSpeed * Time.deltaTime;
             }
@@ -74,6 +129,7 @@ public class Assignment4 : ProcessingLite.GP21 {
         acsPos.x += acceleration.x;
         acsPos.y += acceleration.y;
         Stroke(255, 0, 0);
-        Circle(acsPos.x, acsPos.y, rad);
+        Circle(acsPos.x, acsPos.y, diameter);
+        Stroke(255, 255, 255);
     }
 }
