@@ -46,6 +46,7 @@ public class Assignment4 : ProcessingLite.GP21 {
                 gravitySwitch = false;
             }
         }
+
         if(gravitySwitch == true) {
             if((velPos.y - radie) >= 0.1f) {
                 velPos.y -= gravity * Time.deltaTime;
@@ -66,18 +67,18 @@ public class Assignment4 : ProcessingLite.GP21 {
         if((acsPos.x - radie) <= 0) {
             wrapPos = new Vector2(Width + acsPos.x, acsPos.y);
             Circle(wrapPos.x, wrapPos.y, diameter);
-            //Right border Temp Circle
         }
+        //Right border Temp Circle
         if((acsPos.x + radie) >= Width) {
             wrapPos = new Vector2(acsPos.x - Width, acsPos.y);
             Circle(wrapPos.x, wrapPos.y, diameter);
-            //Bottom border temp circle
         }
+        //Bottom border temp circle
         if((acsPos.y - radie) <= 0) {
             wrapPos = new Vector2(acsPos.x, Height + acsPos.y);
             Circle(wrapPos.x, wrapPos.y, diameter);
-            //Top border temp circle
         }
+        //Top border temp circle
         if((acsPos.y + radie) >= Height) {
             wrapPos = new Vector2(acsPos.x, acsPos.y - Height);
             Circle(wrapPos.x, wrapPos.y, diameter);
@@ -96,25 +97,25 @@ public class Assignment4 : ProcessingLite.GP21 {
         if((velPos.x - radie) <= 0) {
             wrapPos = new Vector2(Width + velPos.x, velPos.y);
             Circle(wrapPos.x, wrapPos.y, diameter);
-            //Right border Temp Circle
         }
+        //Right border Temp Circle
         if((velPos.x + radie) >= Width) {
             wrapPos = new Vector2(velPos.x - Width, velPos.y);
             Circle(wrapPos.x, wrapPos.y, diameter);
-            //Bottom border temp circle
-        } 
+        }
+        //Bottom border temp circle
         if((velPos.y - radie) <= 0) {
             wrapPos = new Vector2(velPos.x, Height + velPos.y);
             Circle(wrapPos.x, wrapPos.y, diameter);
-            //Top border temp circle
-        } 
+        }
+        //Top border temp circle
         if((velPos.y + radie) >= Height) {
             wrapPos = new Vector2(velPos.x, velPos.y - Height);
             Circle(wrapPos.x, wrapPos.y, diameter);
         }
 
         //Left border switch (telport main circle to temp circle)
-        if((velPos.x + radie) <= 0 || (velPos.x - radie) >= Width || (velPos.y + radie) <= 0 || (velPos.y - radie) >= Height)  {
+        if((velPos.x + radie) <= 0 || (velPos.x - radie) >= Width || (velPos.y + radie) <= 0 || (velPos.y - radie) >= Height) {
             velPos.x = wrapPos.x;
             velPos.y = wrapPos.y;
         }
