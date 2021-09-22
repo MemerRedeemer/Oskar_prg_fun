@@ -151,18 +151,10 @@ public class Assignment4 : ProcessingLite.GP21 {
                 acceleration.y += acsDecSpeed * Time.deltaTime;
             }
         }
-        if(acceleration.x >= 0.2f) {
-            acceleration.x = 0.2f;
+        if(acceleration.magnitude > 0.2f) {
+            acceleration = acceleration.normalized * 0.2f;
         }
-        if(acceleration.x <= -0.2f) {
-            acceleration.x = -0.2f;
-        }
-        if(acceleration.y >= 0.2f) {
-            acceleration.y = 0.2f;
-        }
-        if(acceleration.y <= -0.2f) {
-            acceleration.y = -0.2f;
-        }
+        Debug.Log(acceleration);
         acsPos.x += acceleration.x;
         acsPos.y += acceleration.y;
         Stroke(255, 0, 0);
