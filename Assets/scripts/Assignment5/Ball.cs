@@ -39,17 +39,4 @@ class Ball : ProcessingLite.GP21 {
         }
         position += velocity * Time.deltaTime;
     }
-
-    public bool CircleCollision(float x1, float y1, float size1, float x2, float y2, float size2) {
-        float maxDistance = size1 + size2;
-
-        if(Mathf.Abs(x1 - x2) > maxDistance || Mathf.Abs(y1 - y2) > maxDistance) {
-            return false;
-        } else if(Vector2.Distance(new Vector2(x1, x2), new Vector2(x2, y2)) > maxDistance) {
-            return false;
-        } else {
-            Debug.Log("collide?");
-            return true;
-        }
-    }
 }
