@@ -6,35 +6,44 @@ public class Assignment5 : ProcessingLite.GP21 {
 
     public GameObject gameOverText;
 
-    int numberOfBalls = 10;
     Ball[] balls;
     Player playerConnect;
+    Vector2 spawnpoint;
+
+    int ballRender;
+    float targetTime = 3;
 
     void Start() {
+        ballRender = 4;
+        gameOverText.SetActive(false);
+        spawnpoint = new Vector2(Width / 2, Height / 2);
         playerConnect = new Player();
         playerConnect.CreateVector();
-        balls = new Ball[numberOfBalls];
+        balls = new Ball[100];
         for(int i = 0; i < balls.Length; i++) {
             float randomSize = Random.Range(1, 2.5f);
-            Vector2 randomPos = new Vector2(Random.Range(3, 20), Random.Range(4, 16));
+            Vector2 randomPos = new Vector2(Random.Range(randomSize, Width - randomSize), Random.Range(randomSize, Height - randomSize));
             int randomRed = Random.Range(125, 255);
             balls[i] = new Ball(randomPos.x, randomPos.y, randomSize, randomRed);
         }
     }
-
     void Update() {
         Background(0, 0, 0);
 
+        if(Input.GetKeyUp(KeyCode.R)) {
+            Start();
+        }
+
         playerConnect.PlayerMovement();
 
-        for(int i = 0; i < balls.Length; i++) {
-            balls[i].UpdatePos();
-            balls[i].Draw();
+        for(int x = 0; x < ballRender; x++) {
+            balls[x].UpdatePos();
+            balls[x].Draw();
 
             bool hit = CircleCollision(
-                balls[i].position.x, 
-                balls[i].position.y, 
-                balls[i].diameter, 
+                balls[x].position.x, 
+                balls[x].position.y, 
+                balls[x].diameter, 
                 playerConnect.playerBall.x, 
                 playerConnect.playerBall.y, 
                 playerConnect.playerDiameter);
@@ -44,9 +53,15 @@ public class Assignment5 : ProcessingLite.GP21 {
             }
         }
 
-
+        targetTime -= Time.deltaTime;
+        if(targetTime <= 0) {
+            ballRender += 1;
+            Debug.Log("New ball!");
+            targetTime = 3;
+        }
 
     }
+
     public bool CircleCollision(float x1, float y1, float size1, float x2, float y2, float size2) {
 
         float maxDistance = (size1 + size2) / 2;
@@ -59,24 +74,4 @@ public class Assignment5 : ProcessingLite.GP21 {
             return true;
         }
     }
-}
-
-class Player : ProcessingLite.GP21 {
-
-    public Vector2 playerBall;
-    public float playerDiameter = 2;
-    float playerSpeed = 5;
-
-    public void PlayerMovement() {
-        Stroke(0, 0, 255);
-        playerBall.x += Input.GetAxis("Horizontal") * Time.deltaTime * playerSpeed;
-        playerBall.y += Input.GetAxis("Vertical") * Time.deltaTime * playerSpeed;
-        Circle(playerBall.x, playerBall.y, playerDiameter);
-        Stroke(255, 255, 255);
-    }
-
-    public void CreateVector() {
-        playerBall = new Vector2((Width / 2), (Height / 2));
-    }
-
 }

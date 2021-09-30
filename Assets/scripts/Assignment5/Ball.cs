@@ -18,8 +18,8 @@ class Ball : ProcessingLite.GP21 {
 
         //Create the velocity vector and give it a random direction.
         velocity = new Vector2();
-        velocity.x = Random.Range(-5f, 5f);
-        velocity.y = Random.Range(-5f, 5f);
+        velocity.x = Random.Range(-10f, 10f);
+        velocity.y = Random.Range(-10f, 10f);
     }
 
     //Draw our ball
