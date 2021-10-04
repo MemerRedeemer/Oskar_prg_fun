@@ -6,7 +6,7 @@ class Player : ProcessingLite.GP21 {
 
     public Vector2 playerBall;
     public float playerDiameter = 2;
-    float playerSpeed = 5;
+    float playerSpeed = 8;
 
     public void PlayerMovement() {
         Stroke(0, 0, 255);

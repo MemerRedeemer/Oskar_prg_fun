@@ -11,7 +11,7 @@ public class Assignment5 : ProcessingLite.GP21 {
     Vector2 spawnpoint;
 
     int ballRender;
-    float targetTime = 3;
+    float targetTime = 5;
 
     void Start() {
         ballRender = 4;
@@ -56,13 +56,18 @@ public class Assignment5 : ProcessingLite.GP21 {
         targetTime -= Time.deltaTime;
         if(targetTime <= 0) {
             ballRender += 1;
-            Debug.Log("New ball!");
             targetTime = 3;
         }
 
     }
 
-    public bool CircleCollision(float x1, float y1, float size1, float x2, float y2, float size2) {
+    void SpawnCheck(float x1, float y1, float x2, float y2) {
+        
+
+
+    }
+
+    bool CircleCollision(float x1, float y1, float size1, float x2, float y2, float size2) {
 
         float maxDistance = (size1 + size2) / 2;
 
