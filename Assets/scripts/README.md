@@ -1,2 +1,0 @@
-
-GAME OF LIFE
