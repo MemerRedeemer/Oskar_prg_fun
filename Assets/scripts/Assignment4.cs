@@ -155,7 +155,6 @@ public class Assignment4 : ProcessingLite.GP21 {
         if(acceleration.magnitude > 0.2f) {
             acceleration = acceleration.normalized * 0.2f;
         }
-        Debug.Log(acceleration);
         acsPos.x += acceleration.x;
         acsPos.y += acceleration.y;
         Stroke(255, 0, 0);

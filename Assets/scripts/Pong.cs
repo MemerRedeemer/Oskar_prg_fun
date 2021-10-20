@@ -72,10 +72,7 @@ public class Pong : ProcessingLite.GP21 {
             Line((Width / 4), (Height / 2) + 9, (Width / 2) - 5, (Height / 2) + 9);
         } else {
             //Zero
-            Line((Width / 2) - 5, (Height / 2) + 3, (Width / 2) - 5, (Height / 2) + 9);
-            Line((Width / 4), (Height / 2) + 3, (Width / 4), (Height / 2) + 9);
-            Line((Width / 4), (Height / 2) + 3, (Width / 2) - 5, (Height / 2) + 3);
-            Line((Width / 4), (Height / 2) + 9, (Width / 2) - 5, (Height / 2) + 9);
+            Text("0", Width / 2 - 5, Height / 2 + 5); 
         }
         Stroke(255, 255, 255);
     }
