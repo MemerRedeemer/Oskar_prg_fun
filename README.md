@@ -8,3 +8,5 @@ R_klick - Remove cell
 
 Grid gets added while editing cells.
 Cells change color over lifespan.
+
+![](https://cdn.discordapp.com/attachments/304342496476004354/904367800351612978/GOF02.gif)
