@@ -1,6 +1,6 @@
 
 GAME OF LIFE
-![](https://gyazo.com/2eae53e77224b642201e1e5c4e9653da)
+![](https://cdn.discordapp.com/attachments/304342496476004354/904366827902238780/GOF01.gif)
 
 SPACE - Play/Pause
 L_Klick - Place cell
